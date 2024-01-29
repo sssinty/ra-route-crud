@@ -15,7 +15,6 @@ interface IPost {
 
 function App() {
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [editContent, setEditContent] = useState<string>(); 
   const [contentPost, setContent] = useState<string>();
   const [stateSendPost, setSendPost] = useState<boolean>(false);
   const [deletePostStatus, setStatus] = useState<boolean>(false);
@@ -56,10 +55,6 @@ function App() {
     setContent(event.target.value)
   }
 
-  const hendlerChangeEdit = (event : ChangeEvent<HTMLInputElement>) => {
-    setEditContent(event.target.value)
-  }
-
 
   const publishPostBtn = (event : MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) : void=> {
     axios.post('http://localhost:7070/posts', {
@@ -83,9 +78,10 @@ function App() {
 
   const editPostBtn = (id : string) => {
     console.log(id)
-    axios.post(`http://localhost:7070/posts`, {
-      "id": id, "content": editContent
+    axios.put(`http://localhost:7070/posts/${id}`, {
+      "id": id, "content": contentPost
     })
+    .then((resspons) => console.log(resspons))
     .catch((error) => {
       console.log(error)
     })
@@ -103,7 +99,7 @@ function App() {
             if(invisibleEditPost === true) {
               return <PostViewing text={post.content} onClickChange={() => setInvisible(!invisibleEditPost)} onClickDelete={()=> deletePostBtn(params.id)} />
             } if (invisibleEditPost === false) {
-              return <EditePost onSubmit={handleSubmit}  onChange={hendlerChangeEdit} onClick={() => editPostBtn(params.id)} onClickExite={() => setInvisible(!invisibleEditPost)}/>
+              return <EditePost value={post.content} onSubmit={handleSubmit} onChange={hendlerChange} onClick={() => editPostBtn(params.id)} onClickExite={() => setInvisible(!invisibleEditPost)} />
             }
           }
 
@@ -127,7 +123,7 @@ function App() {
     <div className='conteiner-app'>
       <Routes>
         <Route path='/' element={<Main />}/>
-        <Route path='/posts/new' element={<CreatePost handleSubmit={handleSubmit} onChange={hendlerChange} onClick={publishPostBtn} onClickExite={() => {navigate('/')}}/>}/>
+        <Route path='/posts/new' element={<CreatePost onSubmit={handleSubmit} onChange={hendlerChange} onClick={publishPostBtn} onClickExite={() => {navigate('/')}}/>}/>
         <Route path='/posts/:id' element={<VievingPost />}/>
       </Routes>
     </div> 

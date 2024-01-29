@@ -6,12 +6,13 @@ interface IEditePost {
   onClickExite?: MouseEventHandler<HTMLButtonElement>,
   onChange?: ChangeEventHandler<HTMLInputElement>,
   onSubmit: FormEventHandler<HTMLFormElement>,
+  value: string
 }
 
-const EditePost = ({onClick, onSubmit, onClickExite, onChange} : IEditePost) => {
+const EditePost = ({onClick, onSubmit, onClickExite, onChange, value} : IEditePost) => {
   return (
     <div className="edite-post">
-      <FormPost text="Изменить"  onChange={onChange} onClick={onClick} onClickExite={onClickExite} onSubmit={onSubmit}/> 
+      <FormPost value={value} text="Изменить"  onChange={onChange} onClick={onClick} onClickExite={onClickExite} onSubmit={onSubmit}/> 
     </div>
   )
 }

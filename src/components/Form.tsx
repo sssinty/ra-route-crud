@@ -8,13 +8,14 @@ interface IForm {
   onClickExite?: MouseEventHandler<HTMLButtonElement>,
   onChange?: ChangeEventHandler<HTMLInputElement>,
   onSubmit: FormEventHandler<HTMLFormElement>,
-  text: string
+  text: string,
+  value:  string
 }
 
-const FormPost = ({onClick, onClickExite, onChange, text, onSubmit} : IForm) => {
+const FormPost = ({onClick, onClickExite, onChange, text, onSubmit, value} : IForm) => {
   return(
     <form onSubmit={onSubmit}>
-      <Input onChange={onChange}/>
+      <Input onChange={onChange} value={value}/>
       <Button className="publish" text={text} onClick={onClick}/>
       <Button className="exite" text="X" onClick={onClickExite}/>
     </form>
